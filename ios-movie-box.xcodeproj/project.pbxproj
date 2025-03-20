@@ -6,6 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BBA8FB3C2D8C586A00273B9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA8FB342D8C586A00273B9B /* AppDelegate.swift */; };
+		BBA8FB3D2D8C586A00273B9B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA8FB352D8C586A00273B9B /* SceneDelegate.swift */; };
+		BBA8FB402D8C586A00273B9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBA8FB302D8C586A00273B9B /* Assets.xcassets */; };
+		BBA8FB412D8C586A00273B9B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBA8FB322D8C586A00273B9B /* LaunchScreen.storyboard */; };
+		BBA8FB452D8C5D0700273B9B /* ios_movie_boxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA8FB432D8C5D0700273B9B /* ios_movie_boxTests.swift */; };
+		BBA8FB492D8C5D0A00273B9B /* ios_movie_boxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA8FB462D8C5D0A00273B9B /* ios_movie_boxUITests.swift */; };
+		BBA8FB4A2D8C5D0A00273B9B /* ios_movie_boxUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA8FB472D8C5D0A00273B9B /* ios_movie_boxUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BBA8FAE92D8C527B00273B9B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,38 +37,15 @@
 		BBA8FAD22D8C527800273B9B /* ios-movie-box.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-movie-box.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBA8FAE82D8C527B00273B9B /* ios-movie-boxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-movie-boxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBA8FAF22D8C527B00273B9B /* ios-movie-boxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ios-movie-boxUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBA8FB2E2D8C586A00273B9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBA8FB302D8C586A00273B9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BBA8FB312D8C586A00273B9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BBA8FB342D8C586A00273B9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BBA8FB352D8C586A00273B9B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		BBA8FB432D8C5D0700273B9B /* ios_movie_boxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios_movie_boxTests.swift; sourceTree = "<group>"; };
+		BBA8FB462D8C5D0A00273B9B /* ios_movie_boxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios_movie_boxUITests.swift; sourceTree = "<group>"; };
+		BBA8FB472D8C5D0A00273B9B /* ios_movie_boxUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios_movie_boxUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BBA8FAFA2D8C527B00273B9B /* Exceptions for "ios-movie-box" folder in "ios-movie-box" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = BBA8FAD12D8C527800273B9B /* ios-movie-box */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		BBA8FAD42D8C527800273B9B /* ios-movie-box */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BBA8FAFA2D8C527B00273B9B /* Exceptions for "ios-movie-box" folder in "ios-movie-box" target */,
-			);
-			path = "ios-movie-box";
-			sourceTree = "<group>";
-		};
-		BBA8FAEB2D8C527B00273B9B /* ios-movie-boxTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ios-movie-boxTests";
-			sourceTree = "<group>";
-		};
-		BBA8FAF52D8C527B00273B9B /* ios-movie-boxUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "ios-movie-boxUITests";
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BBA8FACF2D8C527800273B9B /* Frameworks */ = {
@@ -88,9 +75,9 @@
 		BBA8FAC92D8C527800273B9B = {
 			isa = PBXGroup;
 			children = (
-				BBA8FAD42D8C527800273B9B /* ios-movie-box */,
-				BBA8FAEB2D8C527B00273B9B /* ios-movie-boxTests */,
-				BBA8FAF52D8C527B00273B9B /* ios-movie-boxUITests */,
+				BBA8FB3B2D8C586A00273B9B /* ios-movie-box */,
+				BBA8FB442D8C5D0700273B9B /* ios-movie-boxTests */,
+				BBA8FB482D8C5D0A00273B9B /* ios-movie-boxUITests */,
 				BBA8FAD32D8C527800273B9B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,6 +90,83 @@
 				BBA8FAF22D8C527B00273B9B /* ios-movie-boxUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BBA8FB282D8C586A00273B9B /* Coordinating */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinating;
+			sourceTree = "<group>";
+		};
+		BBA8FB292D8C586A00273B9B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				BBA8FB282D8C586A00273B9B /* Coordinating */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		BBA8FB2A2D8C586A00273B9B /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		BBA8FB2F2D8C586A00273B9B /* Build Time */ = {
+			isa = PBXGroup;
+			children = (
+				BBA8FB2E2D8C586A00273B9B /* Info.plist */,
+			);
+			path = "Build Time";
+			sourceTree = "<group>";
+		};
+		BBA8FB332D8C586A00273B9B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BBA8FB302D8C586A00273B9B /* Assets.xcassets */,
+				BBA8FB322D8C586A00273B9B /* LaunchScreen.storyboard */,
+				BBA8FB2F2D8C586A00273B9B /* Build Time */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BBA8FB362D8C586A00273B9B /* App Root */ = {
+			isa = PBXGroup;
+			children = (
+				BBA8FB342D8C586A00273B9B /* AppDelegate.swift */,
+				BBA8FB352D8C586A00273B9B /* SceneDelegate.swift */,
+			);
+			path = "App Root";
+			sourceTree = "<group>";
+		};
+		BBA8FB3B2D8C586A00273B9B /* ios-movie-box */ = {
+			isa = PBXGroup;
+			children = (
+				BBA8FB362D8C586A00273B9B /* App Root */,
+				BBA8FB292D8C586A00273B9B /* Core */,
+				BBA8FB2A2D8C586A00273B9B /* Features */,
+				BBA8FB332D8C586A00273B9B /* Resources */,
+			);
+			path = "ios-movie-box";
+			sourceTree = "<group>";
+		};
+		BBA8FB442D8C5D0700273B9B /* ios-movie-boxTests */ = {
+			isa = PBXGroup;
+			children = (
+				BBA8FB432D8C5D0700273B9B /* ios_movie_boxTests.swift */,
+			);
+			path = "ios-movie-boxTests";
+			sourceTree = "<group>";
+		};
+		BBA8FB482D8C5D0A00273B9B /* ios-movie-boxUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BBA8FB462D8C5D0A00273B9B /* ios_movie_boxUITests.swift */,
+				BBA8FB472D8C5D0A00273B9B /* ios_movie_boxUITestsLaunchTests.swift */,
+			);
+			path = "ios-movie-boxUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,9 +183,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				BBA8FAD42D8C527800273B9B /* ios-movie-box */,
 			);
 			name = "ios-movie-box";
 			packageProductDependencies = (
@@ -143,9 +204,6 @@
 			dependencies = (
 				BBA8FAEA2D8C527B00273B9B /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				BBA8FAEB2D8C527B00273B9B /* ios-movie-boxTests */,
-			);
 			name = "ios-movie-boxTests";
 			packageProductDependencies = (
 			);
@@ -165,9 +223,6 @@
 			);
 			dependencies = (
 				BBA8FAF42D8C527B00273B9B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				BBA8FAF52D8C527B00273B9B /* ios-movie-boxUITests */,
 			);
 			name = "ios-movie-boxUITests";
 			packageProductDependencies = (
@@ -225,6 +280,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBA8FB402D8C586A00273B9B /* Assets.xcassets in Resources */,
+				BBA8FB412D8C586A00273B9B /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +306,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBA8FB3C2D8C586A00273B9B /* AppDelegate.swift in Sources */,
+				BBA8FB3D2D8C586A00273B9B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBA8FB452D8C5D0700273B9B /* ios_movie_boxTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +323,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBA8FB492D8C5D0A00273B9B /* ios_movie_boxUITests.swift in Sources */,
+				BBA8FB4A2D8C5D0A00273B9B /* ios_movie_boxUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +343,17 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		BBA8FB322D8C586A00273B9B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BBA8FB312D8C586A00273B9B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		BBA8FAFC2D8C527B00273B9B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -291,10 +364,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 27YU34ECNS;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ios-movie-box/Info.plist";
+				INFOPLIST_FILE = "ios-movie-box/Resources/Build Time/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -319,10 +392,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 27YU34ECNS;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "ios-movie-box/Info.plist";
+				INFOPLIST_FILE = "ios-movie-box/Resources/Build Time/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
