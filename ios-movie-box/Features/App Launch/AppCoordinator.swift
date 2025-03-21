@@ -1,0 +1,26 @@
+import Foundation
+import UIKit
+
+final class AppCoordinator: Coordinating {
+    weak var parent: Coordinating?
+    var childCoordinators: [Coordinating] = []
+    
+    private var window: UIWindow
+    private var navigation: Navigating
+    
+    init(window: UIWindow, navigation: Navigating) {
+        self.window = window
+        self.navigation = navigation
+    }
+    
+    func start() {
+        let movieListCoordinator = MovieListCoordinator(
+            navigation: navigation,
+            parent: self
+        )
+        window.rootViewController = navigation.navigationController
+        
+        addChild(movieListCoordinator)
+        movieListCoordinator.start()
+    }
+}
