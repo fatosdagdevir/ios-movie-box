@@ -13,6 +13,6 @@ final class MoviewDetailsCoordinator: Coordinating {
     
     func start() {
         let view = MoviewDetailsView().hosted()
-        navigation.pushView(view)
+        navigation.pushView(view, animated: true, didFinish: nil)
     }
 }

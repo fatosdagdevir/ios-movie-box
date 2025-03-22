@@ -5,8 +5,8 @@ final class AppCoordinator: Coordinating {
     weak var parent: Coordinating?
     var childCoordinators: [Coordinating] = []
     
-    private var window: UIWindow
-    private var navigation: Navigating
+    var window: UIWindow
+    var navigation: Navigating
     
     init(window: UIWindow, navigation: Navigating) {
         self.window = window

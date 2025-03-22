@@ -7,3 +7,9 @@ extension View {
         return hosting
     }
 }
+
+extension UIViewController {
+    func asHosted<T>(_ type: T.Type) -> UIHostingController<T>? {
+        self as? UIHostingController<T>
+    }
+}
