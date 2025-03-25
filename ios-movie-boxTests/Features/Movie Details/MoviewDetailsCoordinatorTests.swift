@@ -11,7 +11,7 @@ final class MoviewDetailsCoordinatorTests: XCTestCase {
         navigation = MockNavigator()
         parent = MockCoordinator()
         let dependencies = MovieDetailsCoordinator.Dependencies(
-            movieListProvider: MockMovieListProvider(),
+            moviesProvider: MockMoviesProvider(),
             movieDetailsViewStateFactory: MockMovieDetailsViewStateFactory(),
             movieID: 3
         )

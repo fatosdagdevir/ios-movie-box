@@ -1,6 +1,6 @@
 @testable import ios_movie_box
 
-final class MockMovieListProvider: MoviesProviding {
+final class MockMoviesProvider: MoviesProviding {
     var stubMoviesData: UpcomingMovies
     var stubMovieDetails: MovieDetails
     var stubError: Error?

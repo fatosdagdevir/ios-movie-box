@@ -2,7 +2,7 @@ import Foundation
 
 final class MovieDetailsCoordinator: Coordinating {
     struct Dependencies {
-        let movieListProvider: MoviesProviding
+        let moviesProvider: MoviesProviding
         let movieDetailsViewStateFactory: MovieDetailsViewStateCreating
         let movieID: Int
     }
@@ -26,7 +26,7 @@ final class MovieDetailsCoordinator: Coordinating {
     func start() {
         let viewModel = MovieDetailsViewModel(
             movieID: dependencies.movieID,
-            movieListProvider: dependencies.movieListProvider,
+            moviesProvider: dependencies.moviesProvider,
             movieDetailsViewStateFactory: dependencies.movieDetailsViewStateFactory
         )
         let view = MovieDetailsView(viewModel: viewModel).hosted()

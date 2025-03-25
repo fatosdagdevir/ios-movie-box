@@ -1,6 +1,6 @@
 @testable import ios_movie_box
 
-final class MockMovieListViewModelDelegate: MovieListViewModelDelegate {
+final class MockUpcomingMoviesViewModelDelegate: UpcomingMoviesViewModelDelegate {
     var didRequestMovieDetailCalled = false
     var didRequestMovieDetailCallCount = 0
     

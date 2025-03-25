@@ -1,30 +1,30 @@
 import Foundation
 import Combine
 
-protocol MovieListViewModelDelegate: AnyObject {
+protocol UpcomingMoviesViewModelDelegate: AnyObject {
     func didRequestMovieDetail(_ movieID: Int)
 }
 
-final class MovieListViewModel: ObservableObject {
-    private let movieListProvider: MoviesProviding
+final class UpcomingMoviesViewModel: ObservableObject {
+    private let moviesProvider: MoviesProviding
     private var pagination: Pagination
     private var movies: [UpcomingMovies.Movie] = []
     
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
-    @Published var viewState: MovieListView.ViewState = .loading
+    @Published var viewState: UpcomingMoviesView.ViewState = .loading
     
     var navigationTitle: String { "Upcoming Movies" }
     var nextPageAvailable: Bool { pagination.hasNextPage }
     
-    weak var delegate: MovieListViewModelDelegate?
+    weak var delegate: UpcomingMoviesViewModelDelegate?
     
     init(
-        movieListProvider: MoviesProviding,
+        moviesProvider: MoviesProviding,
         pagination: Pagination = .init()
     ) {
-        self.movieListProvider = movieListProvider
+        self.moviesProvider = moviesProvider
         self.pagination = pagination
         
         setupLoadMoreSubscription()
@@ -54,7 +54,7 @@ final class MovieListViewModel: ObservableObject {
         guard pagination.hasNextPage else { return }
         
         do {
-            let response = try await movieListProvider.fetchUpcomingMovies(
+            let response = try await moviesProvider.fetchUpcomingMovies(
                 page: pagination.currentPage
             )
             handleSuccess(response)
@@ -96,7 +96,7 @@ final class MovieListViewModel: ObservableObject {
 }
 
 // MARK: - Pagination Helper
-extension MovieListViewModel {
+extension UpcomingMoviesViewModel {
     struct Pagination {
         private(set) var currentPage: Int = 1
         private(set) var totalPages: Int = 1

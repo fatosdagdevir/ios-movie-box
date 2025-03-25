@@ -14,18 +14,18 @@ final class AppCoordinator: Coordinating {
     }
     
     func start() {
-        let movieListProvider = MoviesProvider()
-        let dependencies = MovieListCoordinator.Dependencies(
-            movieListProvider: movieListProvider
+        let moviesProvider = MoviesProvider()
+        let dependencies = UpcomingMoviesCoordinator.Dependencies(
+            moviesProvider: moviesProvider
         )
-        let movieListCoordinator = MovieListCoordinator(
+        let upcomingMoviesCoordinator = UpcomingMoviesCoordinator(
             dependencies: dependencies,
             navigation: navigation,
             parent: self
         )
         window.rootViewController = navigation.navigationController
         
-        addChild(movieListCoordinator)
-        movieListCoordinator.start()
+        addChild(upcomingMoviesCoordinator)
+        upcomingMoviesCoordinator.start()
     }
 }

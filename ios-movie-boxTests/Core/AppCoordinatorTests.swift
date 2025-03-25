@@ -31,6 +31,6 @@ final class AppCoordinatorTests: XCTestCase {
         XCTAssertNotNil(window.rootViewController)
         XCTAssertEqual(window.rootViewController, navigator.navigationController)
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators.first is MovieListCoordinator)
+        XCTAssertTrue(sut.childCoordinators.first is UpcomingMoviesCoordinator)
     }
 }

@@ -1,17 +1,17 @@
 import XCTest
 @testable import ios_movie_box
 
-final class MovieListViewModelTests: XCTestCase {
-    private var sut: MovieListViewModel!
-    private var mockProvider: MockMovieListProvider!
-    private var delegate: MockMovieListViewModelDelegate!
+final class UpcomingMoviesViewModelTests: XCTestCase {
+    private var sut: UpcomingMoviesViewModel!
+    private var mockProvider: MockMoviesProvider!
+    private var delegate: MockUpcomingMoviesViewModelDelegate!
     
     override func setUp() {
         super.setUp()
         
-        delegate = MockMovieListViewModelDelegate()
-        mockProvider = MockMovieListProvider()
-        sut = MovieListViewModel(movieListProvider: mockProvider)
+        delegate = MockUpcomingMoviesViewModelDelegate()
+        mockProvider = MockMoviesProvider()
+        sut = UpcomingMoviesViewModel(moviesProvider: mockProvider)
         sut.delegate = delegate
     }
     

@@ -1,16 +1,16 @@
 import XCTest
 @testable import ios_movie_box
 
-final class MovieListCoordinatorTests: XCTestCase {
-    private var sut: MovieListCoordinator!
+final class UpcomingMoviesCoordinatorTests: XCTestCase {
+    private var sut: UpcomingMoviesCoordinator!
     private var navigation: MockNavigator!
     private var parent: MockCoordinator!
     
     override func setUp() {
         navigation = .init()
         parent = .init()
-        sut = MovieListCoordinator(
-            dependencies: .init(movieListProvider: MockMovieListProvider()),
+        sut = UpcomingMoviesCoordinator(
+            dependencies: .init(moviesProvider: MockMoviesProvider()),
             navigation: navigation,
             parent: parent
         )
@@ -35,7 +35,7 @@ final class MovieListCoordinatorTests: XCTestCase {
         sut.start()
         
         XCTAssertEqual(navigation.spySetViewControllers.count, 1)
-        XCTAssertNotNil(navigation.spySetViewControllers.first?.asHosted(MovieListView.self))
+        XCTAssertNotNil(navigation.spySetViewControllers.first?.asHosted(UpcomingMoviesView.self))
     }
     
     func test_didRequestMovieDetail_createsAndStartsMovieDetailsCoordinator() {

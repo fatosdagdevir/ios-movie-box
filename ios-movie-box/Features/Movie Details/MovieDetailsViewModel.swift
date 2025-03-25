@@ -1,7 +1,7 @@
 import Foundation
 
 final class MovieDetailsViewModel: ObservableObject {
-    private let movieListProvider: MoviesProviding
+    private let moviesProvider: MoviesProviding
     private let movieDetailsViewStateFactory: MovieDetailsViewStateCreating
     private let movieID: Int
     
@@ -9,18 +9,18 @@ final class MovieDetailsViewModel: ObservableObject {
     
     init(
         movieID: Int,
-        movieListProvider: MoviesProviding,
+        moviesProvider: MoviesProviding,
         movieDetailsViewStateFactory: MovieDetailsViewStateCreating
     ) {
         self.movieID = movieID
-        self.movieListProvider = movieListProvider
+        self.moviesProvider = moviesProvider
         self.movieDetailsViewStateFactory = movieDetailsViewStateFactory
     }
     
     @MainActor
     func loadMovieDetails() async {
         do {
-            let response = try await movieListProvider.fetchMovieDetails(id: movieID)
+            let response = try await moviesProvider.fetchMovieDetails(id: movieID)
             viewState = movieDetailsViewStateFactory.viewState(for: response)
         } catch {
             handleError(error)

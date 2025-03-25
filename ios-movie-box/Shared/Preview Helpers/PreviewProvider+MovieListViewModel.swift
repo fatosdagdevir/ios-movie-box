@@ -1,8 +1,8 @@
 import SwiftUI
 
 extension PreviewProvider {
-    static func previewMovieListViewModel(state: MovieListView.ViewState) -> MovieListViewModel {
-        let viewModel = MovieListViewModel(movieListProvider: MoviesProvider())
+    static func previewMovieListViewModel(state: UpcomingMoviesView.ViewState) -> UpcomingMoviesViewModel {
+        let viewModel = UpcomingMoviesViewModel(moviesProvider: MoviesProvider())
         viewModel.viewState = state
         return viewModel
     }

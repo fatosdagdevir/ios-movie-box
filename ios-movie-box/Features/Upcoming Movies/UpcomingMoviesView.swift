@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieListView: View {
+struct UpcomingMoviesView: View {
     enum ViewState {
         case loading
         case ready(movies: [UpcomingMovies.Movie])
@@ -13,7 +13,7 @@ struct MovieListView: View {
         static let chevronPadding: CGFloat = 4
     }
     
-    @ObservedObject var viewModel: MovieListViewModel
+    @ObservedObject var viewModel: UpcomingMoviesViewModel
     
     var body: some View {
         Group {
@@ -91,24 +91,24 @@ struct MovieListView: View {
 }
 
 // MARK: - Previews
-struct MovieListView_Previews: PreviewProvider {
+struct UpcomingMoviesView_Previews: PreviewProvider {
     static var previews: some View {
         // MARK: Movie List - Ready
-        MovieListView(
+        UpcomingMoviesView(
             viewModel: previewMovieListViewModel(
                 state: .ready(movies: previewMovies)
             )
         )
         
         // MARK: Movie List - Loading
-        MovieListView(
+        UpcomingMoviesView(
             viewModel: previewMovieListViewModel(
                 state: .loading)
             
         )
         
         // MARK: Movie List - Error
-        MovieListView(
+        UpcomingMoviesView(
             viewModel: previewMovieListViewModel(
                 state: .error(viewModel: previewErrorViewModel)
             )

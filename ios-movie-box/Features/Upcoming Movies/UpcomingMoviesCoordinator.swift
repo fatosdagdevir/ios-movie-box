@@ -1,8 +1,8 @@
 import Foundation
 
-final class MovieListCoordinator: Coordinating {
+final class UpcomingMoviesCoordinator: Coordinating {
     struct Dependencies {
-        let movieListProvider: MoviesProviding
+        let moviesProvider: MoviesProviding
     }
     
     weak var parent: Coordinating?
@@ -22,20 +22,20 @@ final class MovieListCoordinator: Coordinating {
     }
     
     func start() {
-        let viewModel = MovieListViewModel(
-            movieListProvider: dependencies.movieListProvider
+        let viewModel = UpcomingMoviesViewModel(
+            moviesProvider: dependencies.moviesProvider
         )
         viewModel.delegate = self
-        let view = MovieListView(viewModel: viewModel).hosted()
+        let view = UpcomingMoviesView(viewModel: viewModel).hosted()
         navigation.setViewControllers([view], animated: false)
     }
 }
 
-extension MovieListCoordinator: MovieListViewModelDelegate {
+extension UpcomingMoviesCoordinator: UpcomingMoviesViewModelDelegate {
     func didRequestMovieDetail(_ movieID: Int) {
         let movieDetailsViewStateFactory = MovieDetailsViewStateFactory()
         let dependencies = MovieDetailsCoordinator.Dependencies(
-            movieListProvider: dependencies.movieListProvider,
+            moviesProvider: dependencies.moviesProvider,
             movieDetailsViewStateFactory: movieDetailsViewStateFactory,
             movieID: movieID)
         
