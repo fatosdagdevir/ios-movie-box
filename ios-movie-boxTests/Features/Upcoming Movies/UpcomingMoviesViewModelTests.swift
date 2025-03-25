@@ -83,13 +83,13 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
         
         await sut.loadMovies()
         
-        XCTAssertEqual(mockProvider.callCount, 1)
+        XCTAssertEqual(mockProvider.fetchUpcomingMoviesCallCount, 1)
         XCTAssertEqual(mockProvider.capturedPage, 1)
         
         sut.loadMoreIfNeeded()
         
         try await Task.sleep(nanoseconds: 1_100_000_000) // needs to wait for throttle (1.1 seconds)
-        XCTAssertEqual(mockProvider.callCount, 2, "Should make second call after throttle")
+        XCTAssertEqual(mockProvider.fetchUpcomingMoviesCallCount, 2, "Should make second call after throttle")
         XCTAssertEqual(mockProvider.capturedPage, 2, "Should request page 2")
     }
     
@@ -136,7 +136,7 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
         
         await sut.refresh()
         
-        XCTAssertEqual(mockProvider.callCount, 2)
+        XCTAssertEqual(mockProvider.fetchUpcomingMoviesCallCount, 2)
         XCTAssertEqual(mockProvider.capturedPage, 1)
     }
     
@@ -173,7 +173,7 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
         
         // Then - Wait for throttle and verify only one additional call was made
         try await Task.sleep(nanoseconds: 1_100_000_000)
-        XCTAssertEqual(mockProvider.callCount, 2, "Should only make one additional call due to throttling")
+        XCTAssertEqual(mockProvider.fetchUpcomingMoviesCallCount, 2, "Should only make one additional call due to throttling")
     }
     
     // MARK: - Navigation Tests

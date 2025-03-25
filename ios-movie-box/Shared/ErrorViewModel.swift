@@ -21,7 +21,7 @@ final class ErrorViewModel: ObservableObject {
             "Oops!"
         }
     }
-
+    
     var descriptionText: String {
         switch type {
         case .offline:
@@ -40,5 +40,14 @@ final class ErrorViewModel: ObservableObject {
         self.error = error
         self.action = action
         self.type = (error as? NetworkError)?.isOfflineError == true ? .offline : .generic
+    }
+}
+
+extension ErrorViewModel: Equatable {
+    static func == (lhs: ErrorViewModel, rhs: ErrorViewModel) -> Bool {
+        lhs.type == rhs.type &&
+        lhs.headerText == rhs.headerText &&
+        lhs.descriptionText == rhs.descriptionText &&
+        lhs.buttonTitle == rhs.buttonTitle
     }
 }

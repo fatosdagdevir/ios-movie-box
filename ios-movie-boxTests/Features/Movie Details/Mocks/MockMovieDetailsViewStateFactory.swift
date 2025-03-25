@@ -2,8 +2,12 @@
 import Foundation
 
 final class MockMovieDetailsViewStateFactory: MovieDetailsViewStateCreating {
+    var stubbedViewState: MovieDetailsView.ViewState = .loading
+    var viewStateCallCount = 0
+    
     func viewState(for movie: MovieDetails) -> MovieDetailsView.ViewState {
-        return .ready(displayData: .mockDisplayData)
+        viewStateCallCount += 1
+        return stubbedViewState
     }
 }
 

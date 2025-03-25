@@ -5,9 +5,9 @@ final class MockMoviesProvider: MoviesProviding {
     var stubMovieDetails: MovieDetails
     var stubError: Error?
     var capturedPage: Int?
-    var callCount = 0
-    var detailsCallCount = 0
-    var capturedMovieId: Int?
+    var fetchUpcomingMoviesCallCount = 0
+    var fetchMovieDetailsCallCount = 0
+    var capturedMovieID: Int?
     
     init(
         stubMoviesData: UpcomingMovies = .mock,
@@ -18,7 +18,7 @@ final class MockMoviesProvider: MoviesProviding {
     }
     
     func fetchUpcomingMovies(page: Int) async throws -> ios_movie_box.UpcomingMovies {
-        callCount += 1
+        fetchUpcomingMoviesCallCount += 1
         capturedPage = page
         
         if let stubError = stubError {
@@ -29,8 +29,8 @@ final class MockMoviesProvider: MoviesProviding {
     }
     
     func fetchMovieDetails(id: Int) async throws -> ios_movie_box.MovieDetails {
-        detailsCallCount += 1
-        capturedMovieId = id
+        fetchMovieDetailsCallCount += 1
+        capturedMovieID = id
         if let stubError = stubError {
             throw stubError
         }

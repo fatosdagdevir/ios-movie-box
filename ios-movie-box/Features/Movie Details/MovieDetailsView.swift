@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct MovieDetailsView: View {
-    enum ViewState {
+    enum ViewState: Equatable {
         case loading
         case ready(displayData: DisplayData)
         case error(viewModel: ErrorViewModel)
         
-        struct DisplayData {
+        struct DisplayData: Equatable {
             let imageURL: URL?
             let title: String
             let overviewTitle: String
