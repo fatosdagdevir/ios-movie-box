@@ -2,7 +2,7 @@ import XCTest
 @testable import ios_movie_box
 
 final class MoviewDetailsCoordinatorTests: XCTestCase {
-    private var sut: MoviewDetailsCoordinator!
+    private var sut: MovieDetailsCoordinator!
     private var navigation: MockNavigator!
     private var parent: MockCoordinator!
     
@@ -10,7 +10,7 @@ final class MoviewDetailsCoordinatorTests: XCTestCase {
         super.setUp()
         navigation = MockNavigator()
         parent = MockCoordinator()
-        sut = MoviewDetailsCoordinator(navigation: navigation, parent: parent)
+        sut = MovieDetailsCoordinator(navigation: navigation, parent: parent)
     }
     
     override func tearDown() {
@@ -30,7 +30,7 @@ final class MoviewDetailsCoordinatorTests: XCTestCase {
         sut.start()
         
         XCTAssertEqual(navigation.spySetViewControllers.count, 1)
-        XCTAssertNotNil(navigation.spySetViewControllers.first?.asHosted(MoviewDetailsView.self))
+        XCTAssertNotNil(navigation.spySetViewControllers.first?.asHosted(MovieDetailsView.self))
         XCTAssertTrue(navigation.didPushView)
     }
 }

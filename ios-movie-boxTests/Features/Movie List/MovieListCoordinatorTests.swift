@@ -42,13 +42,13 @@ final class MovieListCoordinatorTests: XCTestCase {
         sut.didRequestMovieDetail()
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssertTrue(sut.childCoordinators.first is MoviewDetailsCoordinator)
+        XCTAssertTrue(sut.childCoordinators.first is MovieDetailsCoordinator)
     }
     
     func test_didRequestMovieDetail_setsCorrectParentAndNavigation() {
         sut.didRequestMovieDetail()
         
-        guard let movieDetailsCoordinator = sut.childCoordinators.first as? MoviewDetailsCoordinator else {
+        guard let movieDetailsCoordinator = sut.childCoordinators.first as? MovieDetailsCoordinator else {
             XCTFail("Expected MoviewDetailsCoordinator")
             return
         }

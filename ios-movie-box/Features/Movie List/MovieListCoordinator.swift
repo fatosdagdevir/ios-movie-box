@@ -33,8 +33,8 @@ final class MovieListCoordinator: Coordinating {
 }
 
 extension MovieListCoordinator: MovieListViewModelDelegate {
-    func didRequestMovieDetail() {
-        let moviewDetailsCoordinator = MoviewDetailsCoordinator(navigation: navigation, parent: self)
+    func didRequestMovieDetail(movie: UpcomingMoviesData.Movie) {
+        let moviewDetailsCoordinator = MovieDetailsCoordinator(navigation: navigation, parent: self)
         addChild(moviewDetailsCoordinator)
         moviewDetailsCoordinator.start()
     }

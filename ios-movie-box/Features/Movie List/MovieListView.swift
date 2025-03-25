@@ -39,7 +39,12 @@ struct MovieListView: View {
         ScrollView {
             LazyVStack(spacing: Layout.vSpacing) {
                 
-                ForEach(movies, id: \.id, content: movieRow)
+                ForEach(movies, id: \.id) { movie in
+                    movieRow(movie: movie)
+                        .onTapGesture {
+                            viewModel.didSelect(movie: movie)
+                        }
+                }
                 
                 loadingTriggerView
             }
@@ -59,7 +64,7 @@ struct MovieListView: View {
             chevronIcon
         }
         .padding()
-        
+      
         Divider()
             .foregroundColor(.gray)
     }

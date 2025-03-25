@@ -1,6 +1,6 @@
 import Foundation
 
-final class MoviewDetailsCoordinator: Coordinating {
+final class MovieDetailsCoordinator: Coordinating {
     weak var parent: Coordinating?
     var childCoordinators = [Coordinating]()
     
@@ -12,7 +12,8 @@ final class MoviewDetailsCoordinator: Coordinating {
     }
     
     func start() {
-        let view = MoviewDetailsView().hosted()
+        let viewModel = MovieDetailsViewModel()
+        let view = MovieDetailsView(viewModel: viewModel).hosted()
         navigation.pushView(view, animated: true, didFinish: nil)
     }
 }
