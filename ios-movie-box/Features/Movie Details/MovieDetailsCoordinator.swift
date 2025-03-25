@@ -1,33 +1,39 @@
 import Foundation
 
 final class MovieDetailsCoordinator: Coordinating {
+    struct Dependencies {
+        let movieListProvider: MoviesProviding
+        let movieDetailsViewStateFactory: MovieDetailsViewStateCreating
+        let movieID: Int
+    }
+    
     weak var parent: Coordinating?
     var childCoordinators = [Coordinating]()
-    
     var navigation: Navigating
     
-    init(navigation: Navigating, parent: Coordinating) {
+    private let dependencies: Dependencies
+    
+    init(
+        navigation: Navigating,
+        parent: Coordinating,
+        dependencies: Dependencies
+    ) {
         self.navigation = navigation
         self.parent = parent
+        self.dependencies = dependencies
     }
     
     func start() {
-        let viewModel = MovieDetailsViewModel()
-        viewModel.delegate = self
+        let viewModel = MovieDetailsViewModel(
+            movieID: dependencies.movieID,
+            movieListProvider: dependencies.movieListProvider,
+            movieDetailsViewStateFactory: dependencies.movieDetailsViewStateFactory
+        )
         let view = MovieDetailsView(viewModel: viewModel).hosted()
         
-        // Hide back button before pushing
-        navigation.navigationController.navigationItem.hidesBackButton = true
-        
-        navigation.pushView(view, animated: true, didFinish: nil)
-    }
-}
-
-extension MovieDetailsCoordinator: MovieDetailsViewModelDelegate {
-    func dismiss() {
-        navigation.popBack(animated: true) { [weak self] in
-            guard let self else { return }
-            self.parent?.childDidFinish(self)
+        navigation.pushView(view, animated: true) {  [weak self] in
+            guard let self else { return  }
+            parent?.childDidFinish(self)
         }
     }
 }

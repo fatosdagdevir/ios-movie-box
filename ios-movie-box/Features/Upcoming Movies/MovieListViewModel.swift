@@ -6,9 +6,9 @@ protocol MovieListViewModelDelegate: AnyObject {
 }
 
 final class MovieListViewModel: ObservableObject {
-    private let movieListProvider: MovieListProviding
+    private let movieListProvider: MoviesProviding
     private var pagination: Pagination
-    private var movies: [UpcomingMoviesData.Movie] = []
+    private var movies: [UpcomingMovies.Movie] = []
     
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
@@ -21,7 +21,7 @@ final class MovieListViewModel: ObservableObject {
     weak var delegate: MovieListViewModelDelegate?
     
     init(
-        movieListProvider: MovieListProviding,
+        movieListProvider: MoviesProviding,
         pagination: Pagination = .init()
     ) {
         self.movieListProvider = movieListProvider
@@ -73,7 +73,7 @@ final class MovieListViewModel: ObservableObject {
         await loadMovies()
     }
     
-    private func handleSuccess(_ data: UpcomingMoviesData) {
+    private func handleSuccess(_ data: UpcomingMovies) {
         pagination.update(totalPages: data.totalPages)
         movies.append(contentsOf: data.movies)
         viewState = .ready(movies: movies)
@@ -90,7 +90,7 @@ final class MovieListViewModel: ObservableObject {
         )
     }
     
-    func didSelect(movie: UpcomingMoviesData.Movie) {
+    func didSelect(movie: UpcomingMovies.Movie) {
         delegate?.didRequestMovieDetail(movie.movieID)
     }
 }

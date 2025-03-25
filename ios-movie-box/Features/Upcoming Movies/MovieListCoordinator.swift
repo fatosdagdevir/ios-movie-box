@@ -2,7 +2,7 @@ import Foundation
 
 final class MovieListCoordinator: Coordinating {
     struct Dependencies {
-        let movieListProvider: MovieListProviding
+        let movieListProvider: MoviesProviding
     }
     
     weak var parent: Coordinating?
@@ -27,17 +27,23 @@ final class MovieListCoordinator: Coordinating {
         )
         viewModel.delegate = self
         let view = MovieListView(viewModel: viewModel).hosted()
-        
-        // Hide back button before pushing
-        navigation.navigationController.navigationItem.hidesBackButton = true
-        
         navigation.setViewControllers([view], animated: false)
     }
 }
 
 extension MovieListCoordinator: MovieListViewModelDelegate {
     func didRequestMovieDetail(_ movieID: Int) {
-        let moviewDetailsCoordinator = MovieDetailsCoordinator(navigation: navigation, parent: self)
+        let movieDetailsViewStateFactory = MovieDetailsViewStateFactory()
+        let dependencies = MovieDetailsCoordinator.Dependencies(
+            movieListProvider: dependencies.movieListProvider,
+            movieDetailsViewStateFactory: movieDetailsViewStateFactory,
+            movieID: movieID)
+        
+        let moviewDetailsCoordinator = MovieDetailsCoordinator(
+            navigation: navigation,
+            parent: self,
+            dependencies: dependencies
+        )
         addChild(moviewDetailsCoordinator)
         moviewDetailsCoordinator.start()
     }

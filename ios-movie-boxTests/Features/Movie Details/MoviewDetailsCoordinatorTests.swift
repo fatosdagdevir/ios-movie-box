@@ -10,7 +10,16 @@ final class MoviewDetailsCoordinatorTests: XCTestCase {
         super.setUp()
         navigation = MockNavigator()
         parent = MockCoordinator()
-        sut = MovieDetailsCoordinator(navigation: navigation, parent: parent)
+        let dependencies = MovieDetailsCoordinator.Dependencies(
+            movieListProvider: MockMovieListProvider(),
+            movieDetailsViewStateFactory: MockMovieDetailsViewStateFactory(),
+            movieID: 3
+        )
+        sut = MovieDetailsCoordinator(
+            navigation: navigation,
+            parent: parent,
+            dependencies: dependencies
+        )
     }
     
     override func tearDown() {

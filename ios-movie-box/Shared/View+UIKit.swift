@@ -4,6 +4,7 @@ import UIKit
 extension View {
     func hosted() -> UIHostingController<Self> {
         let hosting = UIHostingController(rootView: self)
+        hosting.navigationItem.backButtonDisplayMode = .minimal
         return hosting
     }
 }

@@ -3,7 +3,7 @@ import SwiftUI
 struct MovieListView: View {
     enum ViewState {
         case loading
-        case ready(movies: [UpcomingMoviesData.Movie])
+        case ready(movies: [UpcomingMovies.Movie])
         case error(viewModel: ErrorViewModel)
     }
     
@@ -34,11 +34,11 @@ struct MovieListView: View {
         }
     }
     
+    // MARK: - Movie List View
     @ViewBuilder
-    private func content(movies: [UpcomingMoviesData.Movie]) -> some View {
+    private func content(movies: [UpcomingMovies.Movie]) -> some View {
         ScrollView {
             LazyVStack(spacing: Layout.vSpacing) {
-                
                 ForEach(movies, id: \.id) { movie in
                     movieRow(movie: movie)
                         .onTapGesture {
@@ -53,8 +53,9 @@ struct MovieListView: View {
         .navigationTitle(viewModel.navigationTitle)
     }
     
+    // MARK: - Moview Row View
     @ViewBuilder
-    private func movieRow(movie: UpcomingMoviesData.Movie) -> some View {
+    private func movieRow(movie: UpcomingMovies.Movie) -> some View {
         HStack {
             Text(movie.title)
                 .font(.subheadline)
@@ -64,18 +65,12 @@ struct MovieListView: View {
             chevronIcon
         }
         .padding()
-      
+        
         Divider()
             .foregroundColor(.gray)
     }
     
-    @ViewBuilder
-    private var chevronIcon: some View {
-        Image(systemName: "chevron.right")
-            .foregroundColor(.gray)
-            .padding(.leading, Layout.chevronPadding)
-    }
-    
+    // MARK: - Load Trigger View
     @ViewBuilder
     private var loadingTriggerView: some View {
         if viewModel.nextPageAvailable {
@@ -86,6 +81,37 @@ struct MovieListView: View {
                 }
         }
     }
+    
+    @ViewBuilder
+    private var chevronIcon: some View {
+        Image(systemName: "chevron.right")
+            .foregroundColor(.gray)
+            .padding(.leading, Layout.chevronPadding)
+    }
 }
 
-//TODO: add preview
+// MARK: - Previews
+struct MovieListView_Previews: PreviewProvider {
+    static var previews: some View {
+        // MARK: Movie List - Ready
+        MovieListView(
+            viewModel: previewMovieListViewModel(
+                state: .ready(movies: previewMovies)
+            )
+        )
+        
+        // MARK: Movie List - Loading
+        MovieListView(
+            viewModel: previewMovieListViewModel(
+                state: .loading)
+            
+        )
+        
+        // MARK: Movie List - Error
+        MovieListView(
+            viewModel: previewMovieListViewModel(
+                state: .error(viewModel: previewErrorViewModel)
+            )
+        )
+    }
+}

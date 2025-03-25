@@ -1,6 +1,6 @@
 import Foundation
 
-struct UpcomingMoviesData: Equatable {
+struct UpcomingMovies: Equatable {
     let page: Int
     let movies: [Movie]
     let totalPages: Int

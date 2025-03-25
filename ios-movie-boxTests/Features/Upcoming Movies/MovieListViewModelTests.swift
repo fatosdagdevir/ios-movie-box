@@ -32,7 +32,7 @@ final class MovieListViewModelTests: XCTestCase {
     
     // MARK: - Load Movies Tests
     func test_loadMovies_success() async {
-        mockProvider.stubMockData = .mock
+        mockProvider.stubMoviesData = .mock
         
         await sut.loadMovies()
         
@@ -47,7 +47,7 @@ final class MovieListViewModelTests: XCTestCase {
     }
     
     func test_loadMovies_empty() async {
-        mockProvider.stubMockData = .emptyMock
+        mockProvider.stubMoviesData = .emptyMock
         
         await sut.loadMovies()
         
@@ -74,9 +74,9 @@ final class MovieListViewModelTests: XCTestCase {
     
     // MARK: - Pagination Tests
     func test_loadMoreIfNeeded_callsProvider() async throws {
-        mockProvider.stubMockData = .init(
+        mockProvider.stubMoviesData = .init(
             page: 1,
-            movies: UpcomingMoviesData.Movie.mockMovies(count: 20),
+            movies: UpcomingMovies.Movie.mockMovies(count: 20),
             totalPages: 3,
             totalResults: 60
         )
@@ -94,9 +94,9 @@ final class MovieListViewModelTests: XCTestCase {
     }
     
     func test_pagination_flow() async throws {
-        mockProvider.stubMockData = .init(
+        mockProvider.stubMoviesData = .init(
             page: 1,
-            movies: UpcomingMoviesData.Movie.mockMovies(count: 20),
+            movies: UpcomingMovies.Movie.mockMovies(count: 20),
             totalPages: 3,
             totalResults: 60
         )
@@ -107,9 +107,9 @@ final class MovieListViewModelTests: XCTestCase {
             XCTAssertEqual(firstPageMovies.count, 20)
             XCTAssertTrue(sut.nextPageAvailable)
             
-            mockProvider.stubMockData = .init(
+            mockProvider.stubMoviesData = .init(
                 page: 2,
-                movies: UpcomingMoviesData.Movie.mockMovies(count: 20),
+                movies: UpcomingMovies.Movie.mockMovies(count: 20),
                 totalPages: 3,
                 totalResults: 60
             )
@@ -131,7 +131,7 @@ final class MovieListViewModelTests: XCTestCase {
     
     // MARK: - Refresh Tests
     func test_refresh_resetsStateAndReloads() async {
-        mockProvider.stubMockData = .mock
+        mockProvider.stubMoviesData = .mock
         await sut.loadMovies()
         
         await sut.refresh()
@@ -145,7 +145,7 @@ final class MovieListViewModelTests: XCTestCase {
         await sut.loadMovies()
         
         mockProvider.stubError = nil
-        mockProvider.stubMockData = .mock
+        mockProvider.stubMoviesData = .mock
         await sut.refresh()
         
         if case .ready(let movies) = sut.viewState {
@@ -157,9 +157,9 @@ final class MovieListViewModelTests: XCTestCase {
     
     // MARK: - Throttle Test
     func test_loadMoreIfNeeded_throttling() async throws {
-        mockProvider.stubMockData = .init(
+        mockProvider.stubMoviesData = .init(
             page: 1,
-            movies: UpcomingMoviesData.Movie.mockMovies(count: 20),
+            movies: UpcomingMovies.Movie.mockMovies(count: 20),
             totalPages: 3,
             totalResults: 60
         )
@@ -178,7 +178,7 @@ final class MovieListViewModelTests: XCTestCase {
     
     // MARK: - Navigation Tests
     func test_didRequestMovieDetail_callsDelegate() {
-        sut.didSelect(movie: UpcomingMoviesData.Movie.mockMovie1)
+        sut.didSelect(movie: UpcomingMovies.Movie.mockMovie1)
         
         XCTAssertTrue(delegate.didRequestMovieDetailCalled)
         XCTAssertEqual(delegate.didRequestMovieDetailCallCount, 1)
