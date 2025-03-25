@@ -39,14 +39,14 @@ final class MovieListCoordinatorTests: XCTestCase {
     }
     
     func test_didRequestMovieDetail_createsAndStartsMovieDetailsCoordinator() {
-        sut.didRequestMovieDetail()
+        sut.didRequestMovieDetail(1)
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
         XCTAssertTrue(sut.childCoordinators.first is MovieDetailsCoordinator)
     }
     
     func test_didRequestMovieDetail_setsCorrectParentAndNavigation() {
-        sut.didRequestMovieDetail()
+        sut.didRequestMovieDetail(1)
         
         guard let movieDetailsCoordinator = sut.childCoordinators.first as? MovieDetailsCoordinator else {
             XCTFail("Expected MoviewDetailsCoordinator")
@@ -58,7 +58,7 @@ final class MovieListCoordinatorTests: XCTestCase {
     }
     
     func test_removeChild_afterMovieDetail() {
-        sut.didRequestMovieDetail()
+        sut.didRequestMovieDetail(1)
         let child = sut.childCoordinators.first
         
         sut.removeChild(child!)

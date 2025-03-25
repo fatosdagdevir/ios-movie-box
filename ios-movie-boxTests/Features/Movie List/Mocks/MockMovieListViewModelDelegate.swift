@@ -4,7 +4,7 @@ final class MockMovieListViewModelDelegate: MovieListViewModelDelegate {
     var didRequestMovieDetailCalled = false
     var didRequestMovieDetailCallCount = 0
     
-    func didRequestMovieDetail() {
+    func didRequestMovieDetail( _ movieID: Int) {
         didRequestMovieDetailCalled = true
         didRequestMovieDetailCallCount += 1
     }

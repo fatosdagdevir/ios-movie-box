@@ -28,12 +28,15 @@ final class MovieListCoordinator: Coordinating {
         viewModel.delegate = self
         let view = MovieListView(viewModel: viewModel).hosted()
         
+        // Hide back button before pushing
+        navigation.navigationController.navigationItem.hidesBackButton = true
+        
         navigation.setViewControllers([view], animated: false)
     }
 }
 
 extension MovieListCoordinator: MovieListViewModelDelegate {
-    func didRequestMovieDetail(movie: UpcomingMoviesData.Movie) {
+    func didRequestMovieDetail(_ movieID: Int) {
         let moviewDetailsCoordinator = MovieDetailsCoordinator(navigation: navigation, parent: self)
         addChild(moviewDetailsCoordinator)
         moviewDetailsCoordinator.start()

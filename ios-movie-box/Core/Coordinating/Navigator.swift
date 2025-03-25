@@ -15,4 +15,9 @@ class Navigator: Navigating {
         navigationController.pushViewController(viewController, animated: animated)
         didFinish?()
     }
+    
+    func popBack(animated: Bool, didFinish: (() -> Void)?) {
+        navigationController.popViewController(animated: animated)
+        didFinish?()
+    }
 }

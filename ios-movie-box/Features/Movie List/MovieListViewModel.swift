@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 protocol MovieListViewModelDelegate: AnyObject {
-    func didRequestMovieDetail(movie: UpcomingMoviesData.Movie)
+    func didRequestMovieDetail(_ movieID: Int)
 }
 
 final class MovieListViewModel: ObservableObject {
@@ -91,7 +91,7 @@ final class MovieListViewModel: ObservableObject {
     }
     
     func didSelect(movie: UpcomingMoviesData.Movie) {
-        delegate?.didRequestMovieDetail(movie: movie)
+        delegate?.didRequestMovieDetail(movie.movieID)
     }
 }
 

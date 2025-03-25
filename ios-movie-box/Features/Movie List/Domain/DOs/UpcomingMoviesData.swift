@@ -8,6 +8,7 @@ struct UpcomingMoviesData: Equatable {
     
     struct Movie: Equatable, Identifiable {
         let id = UUID()
+        let movieID: Int
         let title: String
         let overview: String
         let posterPath: String?

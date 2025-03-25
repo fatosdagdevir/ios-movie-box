@@ -77,6 +77,7 @@ private struct MovieDTO: Codable {
     
     var mapped: UpcomingMoviesData.Movie {
         .init(
+            movieID: id,
             title: title,
             overview: overview,
             posterPath: posterPath,

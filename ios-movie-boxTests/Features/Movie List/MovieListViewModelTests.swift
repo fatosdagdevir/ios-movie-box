@@ -178,7 +178,7 @@ final class MovieListViewModelTests: XCTestCase {
     
     // MARK: - Navigation Tests
     func test_didRequestMovieDetail_callsDelegate() {
-        sut.didRequestMovieDetail()
+        sut.didSelect(movie: UpcomingMoviesData.Movie.mockMovie1)
         
         XCTAssertTrue(delegate.didRequestMovieDetailCalled)
         XCTAssertEqual(delegate.didRequestMovieDetailCallCount, 1)

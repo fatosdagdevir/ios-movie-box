@@ -67,6 +67,7 @@ extension UpcomingMoviesData {
 // MARK: - Mock Movie Data
 extension UpcomingMoviesData.Movie {
     static let mockMovie1 = UpcomingMoviesData.Movie(
+        movieID: 1,
         title: "The Dark Knight",
         overview: "Batman raises the stakes in his war on crime.",
         posterPath: "/dark-knight-poster.jpg",
@@ -74,6 +75,7 @@ extension UpcomingMoviesData.Movie {
     )
     
     static let mockMovie2 = UpcomingMoviesData.Movie(
+        movieID: 2,
         title: "Inception",
         overview: "A thief who steals corporate secrets through dream-sharing technology.",
         posterPath: "/inception-poster.jpg",
@@ -81,6 +83,7 @@ extension UpcomingMoviesData.Movie {
     )
     
     static let mockMovie3 = UpcomingMoviesData.Movie(
+        movieID: 3,
         title: "Interstellar",
         overview: "A team of explorers travel through a wormhole in space.",
         posterPath: "/interstellar-poster.jpg",
@@ -90,6 +93,7 @@ extension UpcomingMoviesData.Movie {
     static func mockMovies(count: Int) -> [UpcomingMoviesData.Movie] {
         (1...count).map { index in
             UpcomingMoviesData.Movie(
+                movieID: index,
                 title: "Movie \(index)",
                 overview: "Overview for movie \(index)",
                 posterPath: "/movie-\(index)-poster.jpg",
