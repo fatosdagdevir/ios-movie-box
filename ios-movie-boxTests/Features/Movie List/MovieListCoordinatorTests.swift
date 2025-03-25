@@ -9,7 +9,11 @@ final class MovieListCoordinatorTests: XCTestCase {
     override func setUp() {
         navigation = .init()
         parent = .init()
-        sut = MovieListCoordinator(navigation: navigation, parent: parent)
+        sut = MovieListCoordinator(
+            dependencies: .init(movieListProvider: MockMovieListProvider()),
+            navigation: navigation,
+            parent: parent
+        )
     }
     
     override func tearDown() {

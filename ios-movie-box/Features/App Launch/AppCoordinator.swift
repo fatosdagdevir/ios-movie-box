@@ -14,7 +14,12 @@ final class AppCoordinator: Coordinating {
     }
     
     func start() {
+        let movieListProvider = MovieListProvider()
+        let dependencies = MovieListCoordinator.Dependencies(
+            movieListProvider: movieListProvider
+        )
         let movieListCoordinator = MovieListCoordinator(
+            dependencies: dependencies,
             navigation: navigation,
             parent: self
         )
