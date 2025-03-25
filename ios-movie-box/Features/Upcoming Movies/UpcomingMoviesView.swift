@@ -93,23 +93,23 @@ struct UpcomingMoviesView: View {
 // MARK: - Previews
 struct UpcomingMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        // MARK: Movie List - Ready
+        // MARK: Ready
         UpcomingMoviesView(
-            viewModel: previewMovieListViewModel(
-                state: .ready(movies: previewMovies)
+            viewModel: previewUpcomingMoviesViewModel(
+                state: .ready(movies: previewUpcomingMovies)
             )
         )
         
-        // MARK: Movie List - Loading
+        // MARK: Loading
         UpcomingMoviesView(
-            viewModel: previewMovieListViewModel(
+            viewModel: previewUpcomingMoviesViewModel(
                 state: .loading)
             
         )
         
-        // MARK: Movie List - Error
+        // MARK: Error
         UpcomingMoviesView(
-            viewModel: previewMovieListViewModel(
+            viewModel: previewUpcomingMoviesViewModel(
                 state: .error(viewModel: previewErrorViewModel)
             )
         )

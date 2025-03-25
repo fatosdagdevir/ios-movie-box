@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension PreviewProvider {
-    static var previewMovies: [UpcomingMovies.Movie] {
+    static var previewUpcomingMovies: [UpcomingMovies.Movie] {
         [
             mockMovie1,
             mockMovie2,

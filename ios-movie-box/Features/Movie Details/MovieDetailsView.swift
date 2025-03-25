@@ -105,3 +105,29 @@ struct MovieDetailsView: View {
             .aspectRatio(Layout.imageAspectRatio, contentMode: .fit)
     }
 }
+
+struct MovieDetailsView_Previews: PreviewProvider {
+    static var previews: some View {
+        
+        // MARK: Ready
+        MovieDetailsView(
+            viewModel: previewMovieDetailsViewModel(
+                state: .ready(displayData: previewMovieDetailsDisplayData)
+            )
+        )
+        
+        // MARK: Loading
+        MovieDetailsView(
+            viewModel: previewMovieDetailsViewModel(
+                state: .loading
+            )
+        )
+        
+        // MARK: Error
+        MovieDetailsView(
+            viewModel: previewMovieDetailsViewModel(
+                state: .error(viewModel: previewErrorViewModel)
+            )
+        )
+    }
+}
