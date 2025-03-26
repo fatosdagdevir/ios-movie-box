@@ -1,0 +1,29 @@
+{
+    "id": 123,
+    "title": "The Dark Knight",
+    "overview": "Test Overview",
+    "runtime": 152,
+    "vote_average": 8.5,
+    "genres": [
+        {
+            "id": 28,
+            "name": "Action"
+        },
+        {
+            "id": 80,
+            "name": "Crime"
+        },
+        {
+            "id": 18,
+            "name": "Drama"
+        }
+    ],
+    "original_language": "en",
+    "backdrop_path": "/backdrop.jpg",
+    "poster_path": "/poster.jpg",
+    "budget": 185000000,
+    "revenue": 1004558444,
+    "status": "Released",
+    "tagline": "Test Tagline",
+    "release_date": "2008-07-18"
+}

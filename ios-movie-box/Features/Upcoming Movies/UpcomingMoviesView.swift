@@ -8,8 +8,8 @@ struct UpcomingMoviesView: View {
     }
     
     private enum Layout {
-        static let vSpacing: CGFloat = 16
-        static let verticalPadding: CGFloat = 24
+        static let vSpacing: CGFloat = 4
+        static let verticalPadding: CGFloat = 16
         static let chevronPadding: CGFloat = 4
     }
     
@@ -41,9 +41,6 @@ struct UpcomingMoviesView: View {
             LazyVStack(spacing: Layout.vSpacing) {
                 ForEach(movies, id: \.id) { movie in
                     movieRow(movie: movie)
-                        .onTapGesture {
-                            viewModel.didSelect(movie: movie)
-                        }
                 }
                 
                 loadingTriggerView
@@ -65,6 +62,13 @@ struct UpcomingMoviesView: View {
             chevronIcon
         }
         .padding()
+        .background(
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    viewModel.didSelect(movie: movie)
+                }
+        )
         
         Divider()
             .foregroundColor(.gray)

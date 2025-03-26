@@ -116,7 +116,7 @@ private struct MovieDTO: Codable {
     }
 }
 
-struct MovieDetailsDTO: Decodable {
+private struct MovieDetailsDTO: Decodable {
     let id: Int
     let title: String
     let overview: String
