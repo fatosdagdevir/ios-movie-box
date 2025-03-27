@@ -9,13 +9,17 @@ final class UpcomingMoviesViewModel: ObservableObject {
     private let moviesProvider: MoviesProviding
     private var pagination: Pagination
     private var upcomingMovies: [UpcomingMovies.Movie] = []
-    private var searchedMovies: [UpcomingMovies.Movie] = []
+    private var searchResults: [UpcomingMovies.Movie] = []
     
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     @Published var viewState: UpcomingMoviesView.ViewState = .loading
+    
+    //MARK: Search Properties
     @Published var searchText = ""
+    private var lastSearchText: String?
+    private var minimumSearchLength = 2
     
     var navigationTitle: String { "Upcoming Movies" }
     var searchBarTitle: String { "Search movies..." }
@@ -42,6 +46,12 @@ final class UpcomingMoviesViewModel: ObservableObject {
     private func setupSearchSubscription() {
         $searchText
             .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .filter { [weak self] text in
+                guard let self = self else { return false }
+                
+                return self.shouldPerformSearch(text)
+            }
             .sink { [weak self] searchText in
                 guard let self = self else { return }
                 
@@ -90,7 +100,8 @@ final class UpcomingMoviesViewModel: ObservableObject {
     func refresh() async {
         pagination.reset()
         upcomingMovies.removeAll()
-        searchedMovies.removeAll()
+        searchResults.removeAll()
+        lastSearchText = nil
         viewState = .loading
         
         await loadMovies()
@@ -106,11 +117,14 @@ final class UpcomingMoviesViewModel: ObservableObject {
     //MARK: Search
     @MainActor
     func searchMovies(query: String) async {
-        guard !query.isEmpty else {
-            searchedMovies.removeAll()
-            viewState = .ready(movies: upcomingMovies)
+        let trimmedQuery = query.trimmingCharacters(in: .whitespaces)
+        
+        guard !trimmedQuery.isEmpty else {
+            handleEmptySearch()
             return
         }
+        
+        lastSearchText = trimmedQuery
         
         do {
             let response = try await moviesProvider.searchMovies(
@@ -124,8 +138,43 @@ final class UpcomingMoviesViewModel: ObservableObject {
     }
     
     private func handleSearchedMoviesResult(_ data: UpcomingMovies) {
-        let searchedMovies = data.movies.uniqued()
-        viewState = .ready(movies: searchedMovies)
+        let searchResults = data.movies.uniqued()
+        viewState = .ready(movies: searchResults)
+    }
+    
+    // MARK: - Search Optimization Helpers
+    private func shouldPerformSearch(_ text: String) -> Bool {
+        if text.isEmpty {
+            lastSearchText = nil
+            viewState = .ready(movies: upcomingMovies)
+            return false
+        }
+        
+        let trimmedText = text.trimmingCharacters(in: .whitespaces)
+        if trimmedText.isEmpty {
+            lastSearchText = nil
+            viewState = .ready(movies: upcomingMovies)
+            return false
+        }
+        
+        // Don't search 1 character
+        if trimmedText.count < minimumSearchLength {
+            viewState = .ready(movies: upcomingMovies)
+            return false
+        }
+        
+        if trimmedText == lastSearchText {
+            return false
+        }
+        
+        lastSearchText = trimmedText
+        return true
+    }
+    
+    private func handleEmptySearch() {
+        searchResults.removeAll()
+        lastSearchText = nil
+        viewState = .ready(movies: upcomingMovies)
     }
     
     //MARK: Error Handling

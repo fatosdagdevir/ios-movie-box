@@ -34,12 +34,18 @@ struct MovieDetailsView: View {
             switch viewModel.viewState {
             case .loading:
                 ProgressView()
+                    .accessibilityLabel("Loading movie details")
             case .ready(let viewData):
                 ScrollView {
                     VStack {
                         headerSection(viewData: viewData)
                         detailsSection(viewData)
                     }
+                }
+                .accessibilityElement(children: .contain)
+                .accessibilityLabel("Movie Details")
+                .refreshable {
+                    await viewModel.loadMovieDetails()
                 }
             case .error(let viewModel):
                 ErrorView(viewModel: viewModel)
@@ -68,6 +74,8 @@ struct MovieDetailsView: View {
                     .font(.subheadline)
                     .foregroundColor(.white.opacity(0.8))
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("\(viewData.title), Rating \(viewData.rating), Genres: \(viewData.genreList)")
             .padding(Layout.padding)
         }
     }
@@ -78,6 +86,7 @@ struct MovieDetailsView: View {
             VStack(alignment: .leading, spacing: Layout.Details.vspacing) {
                 Text(viewData.overviewTitle)
                     .font(.headline)
+                    .accessibilityAddTraits(.isHeader)
                 
                 Text(viewData.overview)
                     .font(.body)
@@ -89,20 +98,27 @@ struct MovieDetailsView: View {
     
     // MARK: - Private Helpers
     @ViewBuilder private func headerImage(from imageUrl: URL?) -> some View {
-        AsyncImage(url: imageUrl, content: { image in
-            image
-                .resizable()
-                .aspectRatio(Layout.imageAspectRatio, contentMode: .fit)
-        }, placeholder: {
-            placeholderImage
-        })
+        CachedAsyncImage(
+            url: imageUrl,
+            transaction: Transaction(animation: .easeInOut),
+            content: { image in
+                image
+                    .resizable()
+                    .aspectRatio(Layout.imageAspectRatio, contentMode: .fit)
+            },
+            placeholder: {
+                placeholderImage
+            }
+        )
         .accessibilityHidden(true)
+        .accessibilityLabel("Movie poster")
     }
     
     private var placeholderImage: some View {
         Rectangle()
             .fill(Color.gray.opacity(0.3))
             .aspectRatio(Layout.imageAspectRatio, contentMode: .fit)
+            .accessibilityHidden(true)
     }
 }
 

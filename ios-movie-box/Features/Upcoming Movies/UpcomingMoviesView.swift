@@ -20,6 +20,7 @@ struct UpcomingMoviesView: View {
             switch viewModel.viewState {
             case .loading:
                 ProgressView()
+                    .accessibilityLabel("Loading upcoming movies")
             case .ready(let movies):
                 content(movies: movies)
                     .refreshable {
@@ -53,6 +54,13 @@ struct UpcomingMoviesView: View {
             prompt: viewModel.searchBarTitle
         )
         .navigationTitle(viewModel.navigationTitle)
+        .accessibilityLabel("Upcoming Movies List")
+        .accessibilityAction(named: "Refresh List") {
+            Task {
+                await viewModel.refresh()
+            }
+        }
+        .accessibilityHint("Double tap to refresh the movie list")
     }
     
     // MARK: - Moview Row View
@@ -74,9 +82,14 @@ struct UpcomingMoviesView: View {
                     viewModel.didSelect(movie: movie)
                 }
         )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(movie.title)
+        .accessibilityHint("Double tap to view movie details")
+        .accessibilityAddTraits(.isButton)
         
         Divider()
             .foregroundColor(.gray)
+            .accessibilityHidden(true)
     }
     
     // MARK: - Load Trigger View
@@ -88,6 +101,8 @@ struct UpcomingMoviesView: View {
                 .task {
                     viewModel.loadMoreIfNeeded()
                 }
+                .accessibilityLabel("Loading more movies")
+                .accessibilityHidden(!viewModel.nextPageAvailable)
         }
     }
     
@@ -96,6 +111,7 @@ struct UpcomingMoviesView: View {
         Image(systemName: "chevron.right")
             .foregroundColor(.gray)
             .padding(.leading, Layout.chevronPadding)
+            .accessibilityHidden(true)
     }
 }
 
