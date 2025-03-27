@@ -29,7 +29,7 @@ struct UpcomingMoviesView: View {
                 ErrorView(viewModel: viewModel)
             }
         }
-        .task {
+        .onFirstAppear {
             await viewModel.loadMovies()
         }
     }
@@ -47,6 +47,11 @@ struct UpcomingMoviesView: View {
             }
             .padding(.vertical, Layout.verticalPadding)
         }
+        .searchable(
+            text: $viewModel.searchText,
+            placement: .navigationBarDrawer,
+            prompt: viewModel.searchBarTitle
+        )
         .navigationTitle(viewModel.navigationTitle)
     }
     
@@ -77,7 +82,7 @@ struct UpcomingMoviesView: View {
     // MARK: - Load Trigger View
     @ViewBuilder
     private var loadingTriggerView: some View {
-        if viewModel.nextPageAvailable {
+        if viewModel.nextPageAvailable && !viewModel.isSearching {
             ProgressView()
                 .frame(maxWidth: .infinity)
                 .task {

@@ -7,8 +7,7 @@ struct UpcomingMovies: Equatable {
     let totalResults: Int
     
     struct Movie: Equatable, Identifiable {
-        let id = UUID()
-        let movieID: Int
+        let id: Int
         let title: String
         let overview: String
         let posterPath: String?

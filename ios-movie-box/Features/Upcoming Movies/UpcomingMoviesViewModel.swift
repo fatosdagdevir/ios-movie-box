@@ -8,15 +8,19 @@ protocol UpcomingMoviesViewModelDelegate: AnyObject {
 final class UpcomingMoviesViewModel: ObservableObject {
     private let moviesProvider: MoviesProviding
     private var pagination: Pagination
-    private var movies: [UpcomingMovies.Movie] = []
+    private var upcomingMovies: [UpcomingMovies.Movie] = []
+    private var searchedMovies: [UpcomingMovies.Movie] = []
     
     private let loadMoreSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
     @Published var viewState: UpcomingMoviesView.ViewState = .loading
+    @Published var searchText = ""
     
     var navigationTitle: String { "Upcoming Movies" }
+    var searchBarTitle: String { "Search movies..." }
     var nextPageAvailable: Bool { pagination.hasNextPage }
+    var isSearching: Bool { !searchText.isEmpty }
     
     weak var delegate: UpcomingMoviesViewModelDelegate?
     
@@ -27,7 +31,25 @@ final class UpcomingMoviesViewModel: ObservableObject {
         self.moviesProvider = moviesProvider
         self.pagination = pagination
         
+        setupSubscriptions()
+    }
+    
+    private func setupSubscriptions() {
         setupLoadMoreSubscription()
+        setupSearchSubscription()
+    }
+    
+    private func setupSearchSubscription() {
+        $searchText
+            .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
+            .sink { [weak self] searchText in
+                guard let self = self else { return }
+                
+                Task {
+                    await self.searchMovies(query: searchText)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func setupLoadMoreSubscription() {
@@ -44,7 +66,7 @@ final class UpcomingMoviesViewModel: ObservableObject {
     }
     
     func loadMoreIfNeeded() {
-        guard pagination.hasNextPage else { return }
+        guard pagination.hasNextPage && !isSearching else { return }
         
         loadMoreSubject.send()
     }
@@ -57,7 +79,7 @@ final class UpcomingMoviesViewModel: ObservableObject {
             let response = try await moviesProvider.fetchUpcomingMovies(
                 page: pagination.currentPage
             )
-            handleSuccess(response)
+            handleUpcomingMoviesResult(response)
             pagination.incrementPage()
         } catch {
             handleError(error)
@@ -67,18 +89,46 @@ final class UpcomingMoviesViewModel: ObservableObject {
     @MainActor
     func refresh() async {
         pagination.reset()
-        movies.removeAll()
+        upcomingMovies.removeAll()
+        searchedMovies.removeAll()
         viewState = .loading
         
         await loadMovies()
     }
     
-    private func handleSuccess(_ data: UpcomingMovies) {
+    private func handleUpcomingMoviesResult(_ data: UpcomingMovies) {
         pagination.update(totalPages: data.totalPages)
-        movies.append(contentsOf: data.movies)
-        viewState = .ready(movies: movies)
+        upcomingMovies.append(contentsOf: data.movies)
+        upcomingMovies = upcomingMovies.uniqued()
+        viewState = .ready(movies: upcomingMovies)
     }
     
+    //MARK: Search
+    @MainActor
+    func searchMovies(query: String) async {
+        guard !query.isEmpty else {
+            searchedMovies.removeAll()
+            viewState = .ready(movies: upcomingMovies)
+            return
+        }
+        
+        do {
+            let response = try await moviesProvider.searchMovies(
+                query: query,
+                page: 1 //TODO: pagination
+            )
+            handleSearchedMoviesResult(response)
+        } catch {
+            handleError(error)
+        }
+    }
+    
+    private func handleSearchedMoviesResult(_ data: UpcomingMovies) {
+        let searchedMovies = data.movies.uniqued()
+        viewState = .ready(movies: searchedMovies)
+    }
+    
+    //MARK: Error Handling
     private func handleError(_ error: Error) {
         viewState = .error(
             viewModel: ErrorViewModel(
@@ -90,8 +140,9 @@ final class UpcomingMoviesViewModel: ObservableObject {
         )
     }
     
+    //MARK: Navigation
     func didSelect(movie: UpcomingMovies.Movie) {
-        delegate?.didRequestMovieDetail(movie.movieID)
+        delegate?.didRequestMovieDetail(movie.id)
     }
 }
 
@@ -115,5 +166,13 @@ extension UpcomingMoviesViewModel {
             currentPage = 1
             totalPages = 1
         }
+    }
+}
+
+// MARK: - Common Helpers
+private extension Array where Element: Identifiable {
+    func uniqued() -> [Element] {
+        var seen = Set<Element.ID>()
+        return filter { seen.insert($0.id).inserted }
     }
 }

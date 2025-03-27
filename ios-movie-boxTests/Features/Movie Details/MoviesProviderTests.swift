@@ -29,7 +29,7 @@ final class MoviesProviderTests: XCTestCase {
         XCTAssertEqual(result.movies.count, 2)
         
         let firstMovie = try XCTUnwrap(result.movies.first)
-        XCTAssertEqual(firstMovie.movieID, 123)
+        XCTAssertEqual(firstMovie.id, 123)
         XCTAssertEqual(firstMovie.title, "The Dark Knight")
         XCTAssertEqual(firstMovie.overview, "When the menace known as the Joker wreaks havoc...")
         XCTAssertEqual(firstMovie.posterPath, "/poster.jpg")
@@ -54,6 +54,24 @@ final class MoviesProviderTests: XCTestCase {
         XCTAssertEqual(result.revenue, 1004558444)
         XCTAssertEqual(result.status, "Released")
         XCTAssertEqual(result.tagline, "Test Tagline")
+    }
+    
+    func test_searchMovies_success() async throws {
+        let expectedPage =  1
+        mockNetwork.mockData = try loadJSON(filename: "searched_movies")
+        
+        let result = try await sut.searchMovies(query: "Dark", page: 1)
+        
+        XCTAssertEqual(result.page, 1)
+        XCTAssertEqual(result.totalPages, 10)
+        XCTAssertEqual(result.totalResults, 100)
+        XCTAssertEqual(result.movies.count, 2)
+        
+        let firstMovie = try XCTUnwrap(result.movies.first)
+        XCTAssertEqual(firstMovie.id, 123)
+        XCTAssertEqual(firstMovie.title, "The Dark Knight")
+        XCTAssertEqual(firstMovie.overview, "When the menace known as the Joker wreaks havoc...")
+        XCTAssertEqual(firstMovie.posterPath, "/poster.jpg")
     }
     
     // MARK: - Error Tests

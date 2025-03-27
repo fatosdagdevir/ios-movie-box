@@ -3,6 +3,7 @@ import Foundation
 protocol MoviesProviding {
     func fetchUpcomingMovies(page: Int) async throws -> UpcomingMovies
     func fetchMovieDetails(id: Int) async throws -> MovieDetails
+    func searchMovies(query: String, page: Int) async throws -> UpcomingMovies
 }
 
 final class MoviesProvider: MoviesProviding {
@@ -21,6 +22,13 @@ final class MoviesProvider: MoviesProviding {
     func fetchMovieDetails(id: Int) async throws -> MovieDetails {
         let endpoint = MovieDetailsEndpoint(movieID: id)
         let request = MovieDetailsRequest(endpoint: endpoint)
+        let response = try await network.send(request: request)
+        return response.mapped
+    }
+    
+    func searchMovies(query: String, page: Int) async throws -> UpcomingMovies {
+        let endpoint = SearchMoviesEndpoint(query: query, page: page)
+        let request = SearchMoviesRequest(endpoint: endpoint)
         let response = try await network.send(request: request)
         return response.mapped
     }
@@ -66,6 +74,29 @@ private struct MovieDetailsRequest: RequestProtocol {
     let method: HTTP.Method = .get
 }
 
+// MARK: - Search Movies
+struct SearchMoviesEndpoint: EndpointProtocol {
+    let base = Constants.apiBase
+    let path = "3/search/movie"
+    let query: String
+    let page: Int
+    
+    var queryParameters: [String: String]? {
+        [
+            "query": query,
+            "language": "en-US",
+            "page": String(page),
+            "include_adult": "false"
+        ]
+    }
+}
+
+private struct SearchMoviesRequest: RequestProtocol {
+    typealias Response = UpcomingMoviesDTO
+    let endpoint: EndpointProtocol
+    let method: HTTP.Method = .get
+}
+
 // MARK: - DTOs
 private struct UpcomingMoviesDTO: Codable {
     let page: Int
@@ -107,7 +138,7 @@ private struct MovieDTO: Codable {
     
     var mapped: UpcomingMovies.Movie {
         .init(
-            movieID: id,
+            id: id,
             title: title,
             overview: overview,
             posterPath: posterPath,

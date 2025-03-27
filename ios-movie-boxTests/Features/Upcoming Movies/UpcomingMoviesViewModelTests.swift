@@ -1,10 +1,12 @@
 import XCTest
 @testable import ios_movie_box
+import Combine
 
 final class UpcomingMoviesViewModelTests: XCTestCase {
     private var sut: UpcomingMoviesViewModel!
     private var mockProvider: MockMoviesProvider!
     private var delegate: MockUpcomingMoviesViewModelDelegate!
+    private var cancellables: Set<AnyCancellable>!
     
     override func setUp() {
         super.setUp()
@@ -13,12 +15,14 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
         mockProvider = MockMoviesProvider()
         sut = UpcomingMoviesViewModel(moviesProvider: mockProvider)
         sut.delegate = delegate
+        cancellables = []
     }
     
     override func tearDown() {
         sut = nil
         mockProvider = nil
         delegate = nil
+        cancellables = nil
         super.tearDown()
     }
     
@@ -76,7 +80,7 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
     func test_loadMoreIfNeeded_callsProvider() async throws {
         mockProvider.stubMoviesData = .init(
             page: 1,
-            movies: UpcomingMovies.Movie.mockMovies(count: 20),
+            movies: UpcomingMovies.Movie.mockMovies(startingAt: 1, count: 20),
             totalPages: 3,
             totalResults: 60
         )
@@ -96,7 +100,7 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
     func test_pagination_flow() async throws {
         mockProvider.stubMoviesData = .init(
             page: 1,
-            movies: UpcomingMovies.Movie.mockMovies(count: 20),
+            movies: UpcomingMovies.Movie.mockMovies(startingAt: 1, count: 20),
             totalPages: 3,
             totalResults: 60
         )
@@ -109,7 +113,7 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
             
             mockProvider.stubMoviesData = .init(
                 page: 2,
-                movies: UpcomingMovies.Movie.mockMovies(count: 20),
+                movies: UpcomingMovies.Movie.mockMovies(startingAt: 21, count: 20), // to create unique id's
                 totalPages: 3,
                 totalResults: 60
             )
@@ -159,7 +163,7 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
     func test_loadMoreIfNeeded_throttling() async throws {
         mockProvider.stubMoviesData = .init(
             page: 1,
-            movies: UpcomingMovies.Movie.mockMovies(count: 20),
+            movies: UpcomingMovies.Movie.mockMovies(startingAt: 1, count: 20),
             totalPages: 3,
             totalResults: 60
         )
@@ -175,6 +179,88 @@ final class UpcomingMoviesViewModelTests: XCTestCase {
         try await Task.sleep(nanoseconds: 1_100_000_000)
         XCTAssertEqual(mockProvider.fetchUpcomingMoviesCallCount, 2, "Should only make one additional call due to throttling")
     }
+    
+    // MARK: - Search Tests
+    func test_search_success() async {
+        let searchResults = UpcomingMovies.Movie.mockMovies(startingAt: 1, count: 1)
+        mockProvider.stubSearchData = .init(
+            page: 1,
+            movies: searchResults,
+            totalPages: 1,
+            totalResults: 1
+        )
+        
+        await sut.searchMovies(query: "test")
+        
+        guard case .ready(let movies) = sut.viewState else {
+            XCTFail("Expected ready state")
+            return
+        }
+        
+        XCTAssertEqual(movies, searchResults)
+    }
+    
+    func test_search_debounce() async {
+        sut.searchText = "t"
+        sut.searchText = "te"
+        sut.searchText = "tes"
+        sut.searchText = "test"
+        
+        // Wait for debounce
+        try? await Task.sleep(nanoseconds: 500_000_000)
+        
+        XCTAssertEqual(mockProvider.searchQueries.count, 1)
+        XCTAssertEqual(mockProvider.searchQueries.first, "test")
+    }
+    
+    func test_handleUpcomingMoviesResult_removesDuplicates() async {
+        let upcomingMovies = [
+            UpcomingMovies.Movie(id: 1, title: "Movie 1", overview: "", posterPath: "", releaseDate: ""),
+            UpcomingMovies.Movie(id: 1, title: "Movie 2", overview: "", posterPath: "", releaseDate: ""), //Duplicate
+            UpcomingMovies.Movie(id: 3, title: "Movie 3", overview: "", posterPath: "", releaseDate: "")
+        ]
+        mockProvider.stubMoviesData = .init(
+            page: 1,
+            movies: upcomingMovies,
+            totalPages: 1,
+            totalResults: 1
+        )
+        
+        await sut.loadMovies()
+        
+        if case .ready(let movies) = sut.viewState {
+            XCTAssertEqual(movies.count, 2)
+            XCTAssertEqual(movies.first?.id, 1)
+            XCTAssertEqual(movies.last?.id, 3)
+        } else {
+            XCTFail("Ready state with unique id's expected")
+        }
+    }
+    
+    func test_handleSearchedMoviesResult_removesDuplicates() async {
+        let searchedMovies = [
+            UpcomingMovies.Movie(id: 1, title: "Movie 1", overview: "", posterPath: "", releaseDate: ""),
+            UpcomingMovies.Movie(id: 1, title: "Movie 2", overview: "", posterPath: "", releaseDate: ""), //Duplicate
+            UpcomingMovies.Movie(id: 3, title: "Movie 3", overview: "", posterPath: "", releaseDate: "")
+        ]
+        mockProvider.stubSearchData = .init(
+            page: 1,
+            movies: searchedMovies,
+            totalPages: 1,
+            totalResults: 1
+        )
+        
+        await sut.searchMovies(query: "test")
+        
+        if case .ready(let movies) = sut.viewState {
+            XCTAssertEqual(movies.count, 2)
+            XCTAssertEqual(movies.first?.id, 1)
+            XCTAssertEqual(movies.last?.id, 3)
+        } else {
+            XCTFail("Ready state with unique id's expected")
+        }
+    }
+    
     
     // MARK: - Navigation Tests
     func test_didRequestMovieDetail_callsDelegate() {
